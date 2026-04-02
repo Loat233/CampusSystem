@@ -1,0 +1,5 @@
+/* id:password */
+/* *id is adminAccount */
+*1:e
+1:12adc
+1:abc
