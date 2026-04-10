@@ -33,35 +33,58 @@ public class DataBase {
 
     private void loadJobs() throws IOException {
         Path path = Path.of("jobs");
-        try {
-            if (Files.size(path) == 0) {
-                System.out.println("岗位信息文件为空");
-            }
-            else {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("jobs"));
-                JOBLIST = (List<Job>) in.readObject();
-                updateJobId();
-                System.out.println("岗位信息文件读取完成");
-            }
-        } catch (NoSuchFileException | ClassNotFoundException e) {
+        // 如果文件不存在，创建空文件
+        if (!Files.exists(path)) {
             Files.createFile(path);
+            JOBLIST = new LinkedList<>();
+            return;
+        }
+
+        // 如果文件为空
+        if (Files.size(path) == 0) {
+            System.out.println("岗位信息文件为空");
+            JOBLIST = new LinkedList<>();
+            return;
+        }
+
+        // 尝试读取文件
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("jobs"))) {
+            JOBLIST = (List<Job>) in.readObject();
+            updateJobId();
+            System.out.println("岗位信息文件读取完成");
+        } catch (ClassNotFoundException e) {
+            System.out.println("岗位信息文件格式错误，重置为空列表");
+            JOBLIST = new LinkedList<>();
+            saveJobs();
         }
     }
 
     private void loadApps() throws IOException {
         Path path = Path.of("applications");
-        try {
-            if (Files.size(path) == 0) {
-                System.out.println("应聘记录文件为空");
-            }
-            else {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream("applications"));
-                APPLIST = (List<Application>) in.readObject();
-                updateAppId();
-                System.out.println("应聘记录文件读取完成");
-            }
-        } catch (NoSuchFileException | ClassNotFoundException e) {
+
+        // 如果文件不存在，创建空文件
+        if (!Files.exists(path)) {
             Files.createFile(path);
+            APPLIST = new LinkedList<>();
+            return;
+        }
+
+        // 如果文件为空
+        if (Files.size(path) == 0) {
+            System.out.println("应聘记录文件为空");
+            APPLIST = new LinkedList<>();
+            return;
+        }
+
+        // 尝试读取文件
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("applications"))) {
+            APPLIST = (List<Application>) in.readObject();
+            updateAppId();
+            System.out.println("应聘记录文件读取完成");
+        } catch (ClassNotFoundException e) {
+            System.out.println("应聘记录文件格式错误，重置为空列表");
+            APPLIST = new LinkedList<>();
+            saveApps();
         }
     }
 

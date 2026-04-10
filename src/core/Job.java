@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.function.Supplier;
 
 public class Job implements Serializable {
-    private int id;             // id
+    private final int id;             // id
     private String name;        // 岗位名称
     private String company;     // 单位
     private int salary;         // 薪资
