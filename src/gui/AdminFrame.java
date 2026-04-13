@@ -704,17 +704,20 @@ public class AdminFrame {
         buttonPanel.setBorder(BorderFactory.createTitledBorder("操作"));
 
         JButton viewJobButton = new JButton("查看岗位信息");
+        JButton deleteAppButton = new JButton("删除应聘记录");
         JButton refreshButton = new JButton("刷新列表");
 
         // 设置按钮图标
         try {
             viewJobButton.setIcon(UIManager.getIcon("FileChooser.detailsViewIcon"));
+            deleteAppButton.setIcon(UIManager.getIcon("FileChooser.deleteIcon"));
             refreshButton.setIcon(UIManager.getIcon("FileChooser.refreshIcon"));
         } catch (Exception e) {
             // 如果图标不存在，忽略
         }
 
         buttonPanel.add(viewJobButton);
+        buttonPanel.add(deleteAppButton);
         buttonPanel.add(Box.createHorizontalStrut(20));
         buttonPanel.add(refreshButton);
 
@@ -749,6 +752,7 @@ public class AdminFrame {
 
                     // 启用查看按钮
                     viewJobButton.setEnabled(true);
+                    deleteAppButton.setEnabled(true);
                 } else {
                     // 清空详情显示
                     idValue.setText("");
@@ -761,6 +765,50 @@ public class AdminFrame {
                     acceptButton.setEnabled(false);
                     rejectButton.setEnabled(false);
                     viewJobButton.setEnabled(false);
+                    deleteAppButton.setEnabled(false);
+                }
+            }
+        });
+
+        // 删除应聘记录按钮的事件监听
+        deleteAppButton.addActionListener(e -> {
+            Application selectedApp = appList.getSelectedValue();
+            if (selectedApp != null) {
+                int confirm = JOptionPane.showConfirmDialog(mainPanel,
+                        "确定要删除应聘记录 #" + selectedApp.getId() + " 吗？\n" +
+                                "学生ID: " + selectedApp.getStudId() + "\n" +
+                                "岗位ID: " + selectedApp.getJobId() + "\n" +
+                                "申请时间: " + selectedApp.getSubmitTime(),
+                        "确认删除应聘记录", JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // 调用数据库删除方法
+                    boolean success = DB.deleteApp(selectedApp.getId());
+                    if (success) {
+                        // 从数据模型中删除
+                        appModel.removeElement(selectedApp);
+
+                        // 清空详情显示
+                        idValue.setText("");
+                        studIdValue.setText("");
+                        jobIdValue.setText("");
+                        submitTimeValue.setText("");
+                        statusValue.setText("");
+
+                        // 禁用所有操作按钮
+                        acceptButton.setEnabled(false);
+                        rejectButton.setEnabled(false);
+                        viewJobButton.setEnabled(false);
+                        deleteAppButton.setEnabled(false);
+
+                        JOptionPane.showMessageDialog(mainPanel,
+                                "应聘记录删除成功！\n申请单ID: " + selectedApp.getId(),
+                                "操作成功", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(mainPanel,
+                                "删除失败，请重试！",
+                                "操作失败", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
@@ -855,6 +903,7 @@ public class AdminFrame {
 
         // 初始禁用查看按钮
         viewJobButton.setEnabled(false);
+        deleteAppButton.setEnabled(false);
 
         // 使用分割面板分隔列表和详情
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listPanel, detailPanel);

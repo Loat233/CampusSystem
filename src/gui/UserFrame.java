@@ -1,6 +1,7 @@
 package gui;
 
 import core.Application;
+import core.DataBase;
 import core.Job;
 
 import javax.swing.*;
@@ -10,14 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UserFrame extends JFrame {
-    private final core.DataBase DB;
+    private final DataBase DB;
     private final JTable jobTable;
     private final DefaultTableModel jobTableModel;
     private final JTable appTable;
     private final DefaultTableModel appTableModel;
 
     public UserFrame(int studId) {
-        this.DB = new core.DataBase();
+        this.DB = new DataBase();
         DB.init(studId);
 
         // 窗口基础设置
@@ -80,8 +81,9 @@ public class UserFrame extends JFrame {
             }
             // 获取选中岗位ID
             int jobId = Integer.parseInt(jobTable.getValueAt(row, 0).toString());
+            System.out.println(DB.getLastAppId());
             Application apply = Application.builder()
-                    .setId(DB::getLastAppId)
+                    .setId(() -> DB.getLastAppId() + 1)
                     .setStudId(() -> studId)
                     .setJobId(() -> jobId)
                     .setSubmitTime(() -> {
@@ -104,7 +106,7 @@ public class UserFrame extends JFrame {
 
             // 循环填充审核状态
             String status;
-            for (Application app : DB.getAPPList(studId)) {
+            for (Application app : DB.getUSERAPPLIST(studId)) {
                 if (app.getApplied() == null) {
                    status = "待审核";
                 }
@@ -114,9 +116,8 @@ public class UserFrame extends JFrame {
                 else {
                     status = "未通过";
                 }
-                Object[] row = {app.getStudId(), app.getJobId(), app.getSubmitTime(), status};
+                Object[] row = {app.getId(), app.getJobId(), app.getSubmitTime(), status};
                 appTableModel.addRow(row);
-
             }
         });
     }

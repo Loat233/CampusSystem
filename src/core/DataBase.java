@@ -81,7 +81,7 @@ public class DataBase {
             APPLIST = (List<Application>) in.readObject();
             updateAppId();
             System.out.println("应聘记录文件读取完成");
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | EOFException e) {
             System.out.println("应聘记录文件格式错误，重置为空列表");
             APPLIST = new LinkedList<>();
             saveApps();
@@ -89,11 +89,11 @@ public class DataBase {
     }
 
     public void updateJobId() {
-        lastJobId = JOBLIST.getLast().getId();
+        lastJobId = JOBLIST.isEmpty() ? 0 : JOBLIST.getLast().getId();
     }
 
     public void updateAppId() {
-        lastAppId = APPLIST.getLast().getId();
+        lastAppId = APPLIST.isEmpty() ? 0 : APPLIST.getLast().getId();
     }
 
     public void saveJobs() {
@@ -134,7 +134,7 @@ public class DataBase {
         return APPLIST;
     }
 
-    public List<Application> getAPPList(int studId) {
+    public List<Application> getUSERAPPLIST(int studId) {
         return USERAPPLIST;
     }
 
@@ -209,7 +209,7 @@ public class DataBase {
                         USERAPPLIST.add(app);
                     }
                 }
-                lastAppId = list.getLast().getId();
+                lastAppId = list.isEmpty() ? 0 : list.getLast().getId();
                 System.out.println("应聘记录文件读取完成");
             }
         } catch (NoSuchFileException | ClassNotFoundException e) {
