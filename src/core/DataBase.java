@@ -134,6 +134,10 @@ public class DataBase {
         return APPLIST;
     }
 
+    public List<Application> getAPPList(int studId) {
+        return USERAPPLIST;
+    }
+
     public Job getJob(int id) {
         for (Job job : JOBLIST) {
             if (job.getId() == id) {

@@ -66,7 +66,7 @@ public class UserSys {
                 })
                 .setSubmitTime(() -> {
                     Date date = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy/dd/MM");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
                     String timeStr = format.format(date);
                     System.out.println("申请时间: " + timeStr);
                     return timeStr;

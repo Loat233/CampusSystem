@@ -44,6 +44,7 @@ public class UserLogin {
             else if (AccountSys.isCorrectStud(id, pwd)) {
                 JOptionPane.showMessageDialog(tip, "登录成功，欢迎 用户" + id);
                 frame.dispose();
+                new UserFrame(Integer.parseInt(id));
             }
             else {
                 JOptionPane.showMessageDialog(tip, "账户密码错误");

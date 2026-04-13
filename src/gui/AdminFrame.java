@@ -30,7 +30,6 @@ public class AdminFrame {
         frame.setVisible(true);
     }
 
-    // TODO
     private JPanel createJobsPane() {
         // 创建主面板，使用 BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
