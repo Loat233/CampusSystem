@@ -40,9 +40,7 @@ public class AccountSys {
         String str = getStudAcc(id);
         if (str != null) {
             String[] acc  = str.split(":");
-            if (Objects.equals(acc[1], pwd)) {
-                return true;
-            }
+            return Objects.equals(acc[1], pwd);
         }
         return false;
     }
@@ -51,9 +49,7 @@ public class AccountSys {
         String str = getAdminAcc(id);
         if (str != null) {
             String[] acc  = str.split(":");
-            if (Objects.equals(acc[1], pwd)) {
-                return true;
-            }
+            return Objects.equals(acc[1], pwd);
         }
         return false;
     }

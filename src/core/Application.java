@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.function.Supplier;
 
 public class Application implements Serializable {
-    private int id;                 // 申请单id
+    private final int id;                 // 申请单id
     private int studId;             // 学生id
     private int jobId;              // 岗位id
     private String submitTime;      // 申请时间: YYYY/MM/DD

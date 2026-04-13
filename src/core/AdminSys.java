@@ -3,6 +3,7 @@ package core;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
+@Deprecated
 public class AdminSys {
     private static final DataBase db = new DataBase();
 
@@ -19,12 +20,8 @@ public class AdminSys {
             System.out.println("========================");
             if (userInput.hasNext()) {
                 switch (parseInt(userInput.nextLine())) {
-                    case 1 -> {
-                        jobTable(userInput);
-                    }
-                    case 2 -> {
-                        appTable(userInput);
-                    }
+                    case 1 -> jobTable(userInput);
+                    case 2 -> appTable(userInput);
                     case 5 -> {
                         System.out.println("系统即将关闭，再见");
                         return;
@@ -56,12 +53,8 @@ public class AdminSys {
             System.out.println("========================");
             if (userInput.hasNext()) {
                 switch (parseInt(userInput.nextLine())) {
-                    case 1 -> {
-                        checkJob();
-                    }
-                    case 2 -> {
-                        insertJob(userInput);
-                    }
+                    case 1 -> checkJob();
+                    case 2 -> insertJob(userInput);
                     case 3 -> {
                         while (true) {
                             System.out.println("请输入被删除岗位的id: ");
@@ -140,7 +133,6 @@ public class AdminSys {
 
         if (isRemoved) {
             System.out.println("id为" + id + "的岗位删除成功");
-            db.saveJobs();
         }
         else {
             System.out.println("不存在id为" + id + "的岗位");
@@ -205,12 +197,8 @@ public class AdminSys {
             System.out.println("========================");
             if (userInput.hasNext()) {
                 switch (parseInt(userInput.nextLine())) {
-                    case 1 -> {
-                        checkApp();
-                    }
-                    case 2 -> {
-                        insertApp(userInput);
-                    }
+                    case 1 -> checkApp();
+                    case 2 -> insertApp(userInput);
                     case 3 -> {
                         while (true) {
                             System.out.println("请输入被删除申请单的id: ");
@@ -294,7 +282,6 @@ public class AdminSys {
         boolean isRemoved = db.deleteApp(id);
         if (isRemoved) {
             System.out.println("id为" + id + "的申请单删除成功");
-            db.saveApps();
         }
         else {
             System.out.println("不存在id为" + id + "的申请单");

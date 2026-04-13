@@ -126,9 +126,16 @@ public class DataBase {
         APPLIST.forEach(System.out::println);
     }
 
+    public List<Job> getJOBLIST() {
+        return JOBLIST;
+    }
+
+    public List<Application> getAPPLIST() {
+        return APPLIST;
+    }
+
     public Job getJob(int id) {
-        for (int i = 0; i < JOBLIST.size(); i++) {
-            Job job = JOBLIST.get(i);
+        for (Job job : JOBLIST) {
             if (job.getId() == id) {
                 return job;
             }
@@ -137,8 +144,7 @@ public class DataBase {
     }
 
     public Application getApp(int id) {
-        for (int i = 0; i < APPLIST.size(); i++) {
-            Application app = APPLIST.get(i);
+        for (Application app : APPLIST) {
             if (app.getId() == id) {
                 return app;
             }
@@ -193,8 +199,8 @@ public class DataBase {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream("applications"));
                 List<Application> list = (List<Application>) in.readObject();
                 Application app;
-                for (int i = 0; i < list.size(); i++) {
-                    app = list.get(i);
+                for (Application application : list) {
+                    app = application;
                     if (app.getStudId() == studId) {
                         USERAPPLIST.add(app);
                     }

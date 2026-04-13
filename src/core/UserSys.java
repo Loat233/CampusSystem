@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
+@Deprecated
 public class UserSys {
     private static final DataBase db = new DataBase();
     private static int studId;
@@ -25,15 +26,9 @@ public class UserSys {
             System.out.println("========================");
             if (userInput.hasNext()) {
                 switch (parseInt(userInput.nextLine())) {
-                    case 1 -> {
-                        db.printJobs();
-                    }
-                    case 2 -> {
-                        insertApp(userInput);
-                    }
-                    case 3 -> {
-                        db.printUserApps();
-                    }
+                    case 1 -> db.printJobs();
+                    case 2 -> insertApp(userInput);
+                    case 3 -> db.printUserApps();
                     case 4 -> {
                         System.out.println("系统即将关闭，再见");
                         return;

@@ -3,7 +3,7 @@ package core;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
-
+@Deprecated
 public class Login {
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
@@ -62,20 +62,17 @@ public class Login {
         }
     }
 
+    // TODO
     private static boolean isStudAcc(String str) {
-        if (str.matches("[0-9]+")) {
-            return true;
-        }
-        return false;
+        return str.matches("[0-9]+");
     }
 
+    // TODO
     private static boolean isAdminAcc(String str) {
-        if (!str.matches("[0-9]+")) {
-            return true;
-        }
         return true;
     }
 
+    // TODO
     private static boolean isAvailPwd(String id, String str) {
         return true;
     }
